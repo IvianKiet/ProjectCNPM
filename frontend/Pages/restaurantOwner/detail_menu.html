@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<script>
+          (function () 
+    {
+        const get_theme = localStorage.getItem("theme");  
+        if ( get_theme == "dark")
+    {
+        document.documentElement.classList.add("dark")
+    }
+    })()
+</script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chi tiết thực đơn - Hà Nội - Hoàn Kiếm</title>
+<script src="../../assets/Javascript/config.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981", // Emerald green for a fresh restaurant vibe
+                        "primary-hover": "#059669",
+                        "background-light": "#f3f4f6",
+                        "background-dark": "#111827",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1f2937",
+                        "text-light": "#1f2937",
+                        "text-dark": "#f9fafb",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#374151",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }.modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased min-h-screen transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-col hidden md:flex transition-colors duration-200">
+<div class="p-6 flex items-center justify-center border-b border-border-light dark:border-border-dark">
+<span class="material-symbols-outlined text-primary text-3xl mr-2">restaurant_menu</span>
+<h1 class="text-xl font-bold tracking-tight">ResManager</h1>
+</div>
+<nav class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1 px-3">
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="../index.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">dashboard</span>
+<span>Tổng quan</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="manage_restaurant.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">store</span>
+<span>Chi nhánh</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="manage_table.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">table_restaurant</span>
+<span>Quản lý bàn ăn</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors font-medium" href="#">
+<span class="material-symbols-outlined mr-3 text-primary">menu_book</span>
+<span>Thực đơn</span>
+</a>
+</li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="menu_restaurant.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">settings</span>
+<span>Cài đặt</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<img alt="User Avatar" class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-600" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzBWSLVNsWrHJ-VitAO7JVxCOevBHbKJCH7G_akn4HJGVQ0Jcj-eoloq3X3vc3wfG3HITS1CnfTLnL-D0scembCxG96esPSM-w_hZFXhmIMfE0sqLJ3UW_XK7ubf4G7GP3pzjH-QkayypxO2Dmi-Z-ifAcVgDstjbuj8dpOXG4H7rYPLrl7_gU1shHmjWW-C5P5qgP1Be5Sn1Z_kjtcfz9nUQV3D4d53lqdRGN9XqvIvFfa7mv1CCJJjiznIksKOqiKKpg7aPauyk"/>
+<div>
+<p class="text-sm font-medium">Admin User</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Chủ nhà hàng</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+<header class="h-16 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-6 transition-colors duration-200 z-10">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<nav class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary transition-colors" href="#">Thực đơn</a>
+<span class="material-symbols-outlined text-sm mx-1">chevron_right</span>
+<h2 class="font-semibold text-gray-800 dark:text-white">Chi nhánh Hà Nội - Hoàn Kiếm</h2>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+
+</button>
+</div>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors" id="theme-toggle">
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 md:p-8 bg-background-light dark:bg-background-dark">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Đang hoạt động</span>
+<span class="text-xs text-gray-400">•</span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Cập nhật lần cuối: 2 giờ trước</span>
+</div>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Thực đơn chi nhánh</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Quản lý các món ăn, giá cả và hình ảnh hiển thị cho khách hàng.</p>
+</div>
+<div class="flex gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-lg shadow-sm text-sm focus:ring-2 focus:ring-primary focus:border-primary w-64 transition-all" placeholder="Tìm kiếm món ăn..." type="text"/>
+</div>
+<button class="flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg shadow-sm text-sm font-medium transition-colors" onclick="document.getElementById('addDishModal').classList.add('active')">
+<span class="material-symbols-outlined text-sm mr-2">add</span>
+                                Thêm món mới
+                            </button>
+</div>
+</div>
+<div class="flex overflow-x-auto pb-4 mb-4 gap-2 border-b border-border-light dark:border-border-dark no-scrollbar">
+<button class="px-4 py-2 rounded-full bg-primary text-white text-sm font-medium whitespace-nowrap shadow-sm">Tất cả món</button>
+<button class="px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium whitespace-nowrap transition-colors">Khai vị</button>
+<button class="px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium whitespace-nowrap transition-colors">Món chính</button>
+<button class="px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium whitespace-nowrap transition-colors">Tráng miệng</button>
+<button class="px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium whitespace-nowrap transition-colors">Đồ uống</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group overflow-hidden flex flex-col">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+<img alt="Salad trộn" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZj1qV1gMdRg2IpSEG-RRfJvezUACloWWGwAX_K24cpjNQ1zu0m3eonKBu3kkcYkqzn---Sym-c8xKOLrDBOvf77taBKU3vnbVuILvUSTB20rsVRlmCpoJ4b-42SbnjJChz_lZ3lmbbP8rh8TggNr9bvQgIQLsaSc4R6c6DmEGNLEYuGf62MOWSLqbir8ZLNe6lF73ABc4E7wToMPn3-B7tvCIF9QQ1IJuouzgC42i83a0b3E74LgJsMQAUO0b1O7J8R-ib3_qs1g"/>
+<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-primary text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-red-500 text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 left-2">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/60 text-white backdrop-blur-sm">Khai vị</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Salad Trộn Rau Củ</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">Rau xà lách tươi, cà chua bi, dưa leo, sốt mè rang đặc biệt.</p>
+<div class="mt-auto flex items-center justify-between border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-primary font-bold">45.000đ</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Còn hàng</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group overflow-hidden flex flex-col">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+<img alt="Pancake" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDckacCJfYPb0EvZs-Zh6PouC-R4K6mmY9pJJvB4_pwIZnhm3CbfqiLLenwnYoPqP5ufDVN9BR5H-dzexjnVnuevk0IMpnVd2mxeNouzfOqKnRYREqdIPAsNwR2xaZRexEyT6UwIYrypq_UPAsuDo9snD2_FW2qbYearIQnweQ-1F8KfHM6pUaQrBSxkAM0DnRF4plLug-KUrWOfKbvU_ctsSMc56T4GbP1O3XwpYv9b74Hor1rXbvaDUhddTpeprDTs4vDNZVOVMg"/>
+<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-primary text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-red-500 text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 left-2">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/60 text-white backdrop-blur-sm">Tráng miệng</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Bánh Pancake Mật Ong</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">Bánh pancake mềm xốp ăn kèm mật ong và trái cây theo mùa.</p>
+<div class="mt-auto flex items-center justify-between border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-primary font-bold">65.000đ</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Còn hàng</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group overflow-hidden flex flex-col">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+<img alt="Pizza" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoQdeckIA-erLeCfN4642UncUAYru3N-JTF1IH0dxV3kD3SpaZABKVmdDBXQRKGG_FqC6RnpqDHkBzsMePgolqHOooDpAurcWj36VUjZ3UGGzt5oidPDPCYoKqg1imq9-I-iq0aq21kom0FVN5CC6ayRnn__Eama4WmvhNPh0RwzDXF5Jyv2UhkpTDc5yCrzOAJkp9BUoVdWSYqgQlBhSeWN_U0O3Knfam333z56JVbS0JZTiTjyxHfeupVJNbwFiVyRrVPxT4I0E"/>
+<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-primary text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-red-500 text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 left-2">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/60 text-white backdrop-blur-sm">Món chính</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Pizza Hải Sản</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">Tôm, mực, nghêu, phô mai mozzarella và sốt cà chua Ý.</p>
+<div class="mt-auto flex items-center justify-between border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-primary font-bold">189.000đ</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Còn hàng</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group overflow-hidden flex flex-col">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+<img alt="Ribs" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmSMcQgNyENkXum6zhDs86RqlnHkjP5wO5v8Q2c2NBarEnU_eptmNqo3AaHpAVjyvnHEolJrCEWaYSIpHWxn7oKhKtxwc0S5WdkyBim4ENEvyisVQpu0bvAgw_znQjZj8Gys1_M4LNhXc0S9ZuFCqjaYbDWehmp8rXIdok2rY90WlA-UTD7u8PPaqosMcnkKLs5sOc9UrSa7ZO9nYuHX2euoB7LcSrKv34s6BcINIJQKXJDZBFA39l73x-mcTSS0QDkIJaiB5VsDQ"/>
+<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-primary text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-red-500 text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 left-2">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/60 text-white backdrop-blur-sm">Món chính</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Sườn Nướng BBQ</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">Sườn non heo ướp sốt BBQ đậm đà, nướng than hoa.</p>
+<div class="mt-auto flex items-center justify-between border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-primary font-bold">155.000đ</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-red-500"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Hết hàng</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group overflow-hidden flex flex-col">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+<img alt="Drink" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwuHZQA1oolXBfxqAoL_7v_0bpj3w6tbvICx4dTsIGbn5xum_ca_9xKuFBbqyiDzs1zE9zy0X3yvcI_56vAn_77aJTCZ4Q5YG9FibJ66oGEicFuKlI7FYeuN8nHqt7ef9ETsu-Lz2vzV68fWUHqi3sSC-SIl5WV4ZN5TdSJKwDSKuVruWf6uJSZ9-CKNfyxwSlEfiU0ycJZnIlLiUawxvp5OM4PvBP_Z5kWWnqhcJ2l8kmybM69PMUnVq8re28Z7qQ5AIAnhySJCs"/>
+<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-primary text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-red-500 text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 left-2">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/60 text-white backdrop-blur-sm">Đồ uống</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Trà Đào Cam Sả</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">Thức uống giải khát với hương thơm nhẹ nhàng của sả và đào.</p>
+<div class="mt-auto flex items-center justify-between border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-primary font-bold">45.000đ</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Còn hàng</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm hover:shadow-md transition-all group overflow-hidden flex flex-col">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+<img alt="Steak" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAmPwlbUQXtvEXSG4QAkBMENJsC9RnggwruKtQwYe-Bpwv_87gL-R7tV2MG0_jKRgMR5HZe_vuNuzhkkEE9U8qMyScsws7WVXDMTMpFn2ggCkML1F5iwawGFwHtNF_wS0GTCv6_KC4exqFvycPZk2Vsr-ALKZnxsTiRk7pQQJoqP40nSjLkimMQc3VKvOePz8VaP-0wQkVr9O28GUSDbcQaMZ9wpXMq9F2eeXCQF35mqPtpx73dY3bGcIlv4KOaklSF5sv5wlCjgk"/>
+<div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-primary text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 bg-white/90 dark:bg-gray-800/90 rounded-full hover:text-red-500 text-gray-600 dark:text-gray-300 shadow-sm backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+<div class="absolute bottom-2 left-2">
+<span class="px-2 py-1 rounded text-xs font-bold bg-black/60 text-white backdrop-blur-sm">Món chính</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Bò Bít Tết</h3>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">Thịt bò Úc thượng hạng nướng vừa chín tới, sốt tiêu đen.</p>
+<div class="mt-auto flex items-center justify-between border-t border-border-light dark:border-border-dark pt-3">
+<span class="text-primary font-bold">250.000đ</span>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Còn hàng</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-border-light dark:border-border-dark mt-8 pt-4">
+<div class="text-sm text-gray-500 dark:text-gray-400">
+                            Hiển thị <span class="font-medium text-gray-900 dark:text-white">1</span> đến <span class="font-medium text-gray-900 dark:text-white">6</span> trong tổng số <span class="font-medium text-gray-900 dark:text-white">124</span> món
+                        </div>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-border-light dark:border-border-dark rounded text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50">Trước</button>
+<button class="px-3 py-1 border border-border-light dark:border-border-dark rounded bg-primary text-white hover:bg-primary-hover">1</button>
+<button class="px-3 py-1 border border-border-light dark:border-border-dark rounded text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700">2</button>
+<button class="px-3 py-1 border border-border-light dark:border-border-dark rounded text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700">3</button>
+<button class="px-3 py-1 border border-border-light dark:border-border-dark rounded text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700">Sau</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="modal fixed inset-0 z-50 flex items-center justify-center p-4" id="addDishModal">
+<div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm" onclick="document.getElementById('addDishModal').classList.remove('active')"></div>
+<div class="relative w-full max-w-2xl bg-surface-light dark:bg-surface-dark rounded-xl shadow-2xl border border-border-light dark:border-border-dark overflow-hidden flex flex-col max-h-[90vh]">
+<div class="px-6 py-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Thêm món ăn mới</h3>
+<button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" onclick="document.getElementById('addDishModal').classList.remove('active')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto">
+<form action="#" class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Hình ảnh món ăn</label>
+<div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg hover:border-primary cursor-pointer transition-colors bg-gray-50 dark:bg-gray-800/50">
+<div class="space-y-1 text-center">
+<span class="material-symbols-outlined text-4xl text-gray-400">add_photo_alternate</span>
+<div class="flex text-sm text-gray-600 dark:text-gray-400 justify-center">
+<label class="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary-hover focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary" for="file-upload">
+<span>Tải ảnh lên</span>
+<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</label>
+<p class="pl-1">hoặc kéo thả vào đây</p>
+</div>
+<p class="text-xs text-gray-500 dark:text-gray-500">PNG, JPG, GIF lên đến 5MB</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="dish-name">Tên món ăn <span class="text-red-500">*</span></label>
+<input class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2.5 px-3" id="dish-name" placeholder="VD: Phở bò đặc biệt" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="dish-price">Giá tiền (VNĐ) <span class="text-red-500">*</span></label>
+<div class="mt-1 relative rounded-md shadow-sm">
+<input class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:border-primary focus:ring-primary sm:text-sm py-2.5 px-3 pr-12" id="dish-price" placeholder="0" type="number"/>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="text-gray-500 sm:text-sm">đ</span>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="dish-category">Danh mục</label>
+<select class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2.5 px-3" id="dish-category">
+<option>Món chính</option>
+<option>Khai vị</option>
+<option>Tráng miệng</option>
+<option>Đồ uống</option>
+</select>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="dish-desc">Mô tả chi tiết</label>
+<textarea class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2 px-3" id="dish-desc" placeholder="Mô tả thành phần, hương vị..." rows="3"></textarea>
+</div>
+<div class="col-span-2">
+<div class="flex items-center">
+<input checked="" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded" id="dish-status" type="checkbox"/>
+<label class="ml-2 block text-sm text-gray-900 dark:text-gray-300" for="dish-status">
+                                    Đang kinh doanh (Hiển thị trên thực đơn)
+                                </label>
+</div>
+</div>
+</div>
+</form>
+</div>
+<div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-border-light dark:border-border-dark flex justify-end gap-3">
+<button class="px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors" onclick="document.getElementById('addDishModal').classList.remove('active')">Hủy bỏ</button>
+<button class="px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-medium shadow-sm transition-colors">Lưu món ăn</button>
+</div>
+</div>
+</div>
+<script src="../../assets/Javascript/owner/theme_mode.js"></script>
+</body></html>

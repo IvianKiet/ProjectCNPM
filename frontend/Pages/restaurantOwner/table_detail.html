@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chi tiết quản lý bàn ăn</title>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="../../assets/Javascript/config.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Work Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
+<div class="relative flex h-full grow flex-col">
+<div class="px-4 sm:px-6 lg:px-8 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 w-full">
+<nav aria-label="Breadcrumb" class="flex flex-wrap gap-2 px-4 py-2">
+<a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium leading-normal" href="../index.html">Trang chủ</a>
+<span class="text-slate-400 text-sm font-medium leading-normal">/</span>
+<a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium leading-normal" href="manage_table.html">Quản lý bàn ăn ăn>
+<span class="text-slate-400 text-sm font-medium leading-normal">/</span>
+<span class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal">Chi tiết bàn ăn</span>
+</nav>
+<div class="flex flex-wrap items-end justify-between gap-4 p-4 border-b border-slate-200 dark:border-slate-800">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-tight">
+                        Quản lý bàn ăn - Hà Nội Hoàn Kiếm
+                    </h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">
+                        Danh sách 24 bàn hiện tại
+                    </p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg bg-primary hover:bg-blue-600 text-white px-5 py-2.5 text-sm font-bold leading-normal transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="truncate">Thêm bàn</span>
+</button>
+</div>
+<div class="px-4 py-6">
+<label class="flex flex-col sm:w-96 w-full relative">
+<div class="flex w-full items-stretch rounded-lg h-12 bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden focus-within:border-primary transition-colors">
+<div class="flex items-center justify-center pl-4 pr-2 text-slate-400">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="flex w-full flex-1 bg-transparent text-slate-900 dark:text-white border-none focus:ring-0 placeholder:text-slate-400 px-2 text-base font-normal leading-normal" placeholder="Tìm kiếm số bàn (ví dụ: Bàn 05)..." value=""/>
+</div>
+</label>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4 pb-8">
+    
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 01</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 02</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-orange-50 text-orange-600 dark:bg-slate-700 dark:text-orange-400">
+<span class="material-symbols-outlined text-4xl">restaurant_menu</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 03</p>
+<span class="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 ring-1 ring-inset ring-orange-600/20">Đang phục vụ</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 04</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 05</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 06</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-purple-50 text-purple-600 dark:bg-slate-700 dark:text-purple-400">
+<span class="material-symbols-outlined text-4xl">event_seat</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 07</p>
+<span class="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 ring-1 ring-inset ring-purple-600/20">Đã đặt</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 08</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+<div class="group relative flex flex-col items-center gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+<button class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors" title="Xóa bàn">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-primary dark:bg-slate-700 dark:text-blue-400">
+<span class="material-symbols-outlined text-4xl">table_restaurant</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<p class="text-lg font-bold text-slate-900 dark:text-white">Bàn 09</p>
+<span class="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400 ring-1 ring-inset ring-green-600/20">Trống</span>
+</div>
+<button class="create_QR flex w-full items-center justify-center gap-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-primary px-3 py-2 text-sm font-bold transition-colors dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[20px]">qr_code_2</span>
+<span>Tạo QR</span>
+</button>
+</div>
+
+</div>
+<script src="../../assets/Javascript/owner/table_detail.js"></script>
+</body></html>
