@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kitchen OPS – Quản lý bếp</title>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols_Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#22c55e",
+        "primary-dark": "#16a34a",
+        "surface": "#ffffff",
+        "background": "#f1f5f9",
+      },
+      fontFamily: {
+        "sans": ["Inter", "sans-serif"]
+      },
+      borderRadius: {
+        "DEFAULT": "0.5rem",
+        "lg": "0.75rem",
+        "xl": "1rem",
+        "2xl": "1.5rem",
+      },
+    },
+  },
+}
+</script>
+
+<link rel="stylesheet" href="kitchen.css">
+</head>
+
+<body class="bg-background min-h-screen flex flex-col text-slate-900">
+
+<!-- ================= HEADER ================= -->
+<header class="flex items-center justify-between border-b border-slate-200 bg-white px-8 py-4 sticky top-0 z-50">
+
+  <div class="flex items-center gap-4">
+    <div class="size-11 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20">
+      <span class="material-symbols-outlined text-white text-[26px]">skillet</span>
+    </div>
+    <div>
+      <h2 class="text-lg font-black tracking-tight leading-none uppercase">Kitchen OPS</h2>
+      <p class="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">Premium Restaurant</p>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3 bg-slate-100 p-1 rounded-xl">
+    <button id="tabActive"
+      class="px-5 py-2 rounded-lg bg-white shadow text-sm font-black text-slate-700">
+      Đang hoạt động (<span id="activeCount">0</span>)
+    </button>
+  </div>
+
+  <div class="flex items-center gap-6">
+    <div class="flex items-center gap-3 border-l border-slate-200 pl-6">
+      <div class="text-right hidden sm:block">
+        <p class="text-sm font-bold leading-none user-full-name">Loading...</p>
+        <p class="text-[11px] text-primary font-bold uppercase mt-1 user-role">Kitchen</p>
+      </div>
+      <div class="size-10 bg-slate-200 rounded-xl bg-cover border-2 border-white shadow-sm"
+           style='background-image:url("../restaurantOwner/default-avatar.png")'></div>
+    </div>
+  </div>
+
+</header>
+
+<!-- ================= MAIN ================= -->
+<main class="flex flex-col flex-1 w-full px-8 py-8">
+
+<h1 class="text-4xl font-black tracking-tight mb-8">Danh sách đơn bếp</h1>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8 flex-1">
+
+  <!-- ===== HOẠT ĐỘNG ===== -->
+  <div class="xl:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    <section class="bg-white rounded-2xl p-6 flex flex-col">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-amber-500 font-black uppercase">Chờ chế biến</h2>
+        <span id="pendingCount" class="bg-amber-400 text-black px-3 py-1 rounded-full text-sm font-black">0</span>
+      </div>
+      <div id="pendingCol" class="space-y-6 flex-1 overflow-y-auto"></div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-6 flex flex-col">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-sky-500 font-black uppercase">Đang chế biến</h2>
+        <span id="cookingCount" class="bg-sky-400 text-black px-3 py-1 rounded-full text-sm font-black">0</span>
+      </div>
+      <div id="cookingCol" class="space-y-6 flex-1 overflow-y-auto"></div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-6 flex flex-col">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-primary font-black uppercase">Sẵn sàng</h2>
+        <span id="readyCount" class="bg-primary text-white px-3 py-1 rounded-full text-sm font-black">0</span>
+      </div>
+      <div id="readyCol" class="space-y-6 flex-1 overflow-y-auto"></div>
+    </section>
+
+  </div>
+
+
+
+  <!-- ===== PANEL CHI TIẾT ===== -->
+  <aside id="detailPanel" class="hidden xl:block bg-white rounded-3xl p-6 border border-slate-200">
+
+    <div id="detailEmpty" class="h-full flex items-center justify-center text-slate-400 font-bold">
+      Chọn một bàn để xem chi tiết
+    </div>
+
+    <div id="detailContent" class="hidden h-full flex flex-col">
+
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center text-primary text-2xl font-black">🍽</div>
+        <div>
+          <h2 id="d_table" class="text-3xl font-black">Bàn --</h2>
+          <p id="d_info" class="text-slate-500 text-sm">---</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-slate-50 rounded-xl p-4 text-center">
+          <p class="text-xs font-bold text-slate-400 uppercase">Thời gian</p>
+          <p id="d_time" class="text-xl font-black text-primary">-- phút</p>
+        </div>
+        <div class="bg-slate-50 rounded-xl p-4 text-center">
+          <p class="text-xs font-bold text-slate-400 uppercase">Trạng thái</p>
+          <p id="d_status" class="text-xl font-black">---</p>
+        </div>
+      </div>
+
+      <h3 class="font-black text-lg mb-3">Danh sách món ăn</h3>
+      <div id="d_items" class="space-y-4 flex-1 overflow-y-auto"></div>
+
+      <div class="pt-5 border-t mt-6">
+        <button id="detailAction"
+          class="w-full bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-xl uppercase transition">
+          HOÀN TẤT
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+</div>
+</main>
+
+<footer class="bg-primary text-white">
+  <div class="px-10 py-4 text-xs font-bold flex justify-between items-center">
+    <span>Kitchen Display System</span>
+    <div class="flex items-center gap-6">
+      <span id="clock">--:--:--</span>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="../../assets/Javascript/auth.js"></script>
+<script src="../../assets/Javascript/api/orders.js"></script>
+<script src="../../assets/Javascript/kitchen/kitchen.js"></script>
+<script>
+function updateClock() {
+  document.getElementById("clock").innerText =
+    new Date().toLocaleTimeString("vi-VN");
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>

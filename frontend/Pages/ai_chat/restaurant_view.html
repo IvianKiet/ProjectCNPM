@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>S2O - Xem Nhà Hàng</title>
+    <script src="/assets/Javascript/api-config.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2bee7c",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102218",
+                        "gold": "#FFD700",
+                        "amber": "#FFBF00"
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { display: none; }
+        body {
+            background-color: #08110c;
+            min-height: 100dvh;
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(43, 238, 124, 0.4);
+        }
+    </style>
+</head>
+
+<body class="font-display text-gray-900 dark:text-white min-h-screen">
+    <div class="max-w-[480px] mx-auto min-h-screen bg-background-light dark:bg-background-dark relative shadow-2xl border-x border-white/5">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4 flex items-center justify-between border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <div class="size-10 rounded-full bg-primary flex items-center justify-center text-black font-bold">
+                    S2O
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-primary font-bold">Hệ thống nhà hàng</p>
+                    <div class="flex items-center gap-1">
+                        <span class="text-sm font-semibold">Khám phá chi nhánh</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="pb-6">
+            
+            <!-- AI Banner -->
+            <section class="px-4 pt-4 pb-2">
+                <div class="bg-gradient-to-r from-green-400/20 to-blue-500/20 border border-primary/30 rounded-2xl p-4 flex items-center gap-3">
+                    <div class="size-12 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center shrink-0 ai-glow">
+                        <span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1">smart_toy</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <span class="text-primary text-xs font-bold tracking-widest uppercase">Trợ lý AI</span>
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-300">Hỏi tôi về menu, giờ mở cửa, địa chỉ...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Branch List -->
+            <section class="px-4 py-4">
+                <h2 class="text-lg font-bold mb-4">Chi nhánh</h2>
+                <div id="branchList" class="space-y-4">
+                    <!-- Branches will be loaded here -->
+                    <div class="text-center py-8 text-gray-500">
+                        <span class="material-symbols-outlined text-4xl mb-2">restaurant</span>
+                        <p>Đang tải danh sách chi nhánh...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Branch Detail Modal -->
+    <div id="branchModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-end justify-center">
+        <div class="w-full max-w-[480px] bg-background-dark rounded-t-3xl max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-background-dark/95 backdrop-blur-md border-b border-white/10 px-4 py-4 flex items-center justify-between">
+                <h3 id="modalBranchName" class="text-lg font-bold"></h3>
+                <button onclick="closeModal()" class="size-10 flex items-center justify-center rounded-full bg-white/10">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-4 space-y-6">
+                
+                <!-- Branch Info -->
+                <div class="space-y-3">
+                    <div id="modalBranchImage" class="w-full h-48 bg-gray-800 rounded-xl overflow-hidden">
+                        <!-- Image will be loaded here -->
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary">location_on</span>
+                        <div>
+                            <p class="text-sm font-semibold">Địa chỉ</p>
+                            <p id="modalAddress" class="text-sm text-gray-400"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary">schedule</span>
+                        <div>
+                            <p class="text-sm font-semibold">Giờ mở cửa</p>
+                            <p id="modalHours" class="text-sm text-gray-400"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary">phone</span>
+                        <div>
+                            <p class="text-sm font-semibold">Số điện thoại</p>
+                            <p id="modalPhone" class="text-sm text-gray-400"></p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary">percent</span>
+                        <div>
+                            <p class="text-sm font-semibold">Hoàn tiền</p>
+                            <p id="modalCashback" class="text-sm text-gray-400"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="chatButton" onclick="openChat()" class="flex items-center justify-center gap-2 bg-primary text-black font-bold py-3 px-4 rounded-xl hover:scale-95 transition-transform">
+                        <span class="material-symbols-outlined">chat</span>
+                        Chat với AI
+                    </button>
+                    <button id="mapsButton" onclick="openMaps()" class="flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white font-bold py-3 px-4 rounded-xl hover:bg-white/20 transition-colors">
+                        <span class="material-symbols-outlined">map</span>
+                        Chỉ đường
+                    </button>
+                </div>
+
+                <!-- Menu Preview -->
+                <div>
+                    <h4 class="font-bold mb-3 text-white">Thực đơn nổi bật</h4>
+                    <div id="modalMenu" class="space-y-4">
+                        <!-- Menu items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = 'http://localhost:8000/api/guest';  // Public guest API (no auth required)
+        
+        let allBranches = [];
+        let selectedBranch = null;
+
+        // Initialize
+        window.onload = function() {
+            loadBranches();
+        };
+
+        async function loadBranches() {
+            try {
+                console.log('Fetching branches from:', `${API_URL}/branches`);
+                
+                const response = await fetch(`${API_URL}/branches`);
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Branches loaded:', data);
+                
+                allBranches = data;
+                displayBranches(data);
+                
+            } catch (error) {
+                console.error('Error loading branches:', error);
+                document.getElementById('branchList').innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <span class="material-symbols-outlined text-4xl mb-2">error</span>
+                        <p class="mb-2">Không thể tải danh sách chi nhánh</p>
+                        <p class="text-xs text-gray-400">Lỗi: ${error.message}</p>
+                        <p class="text-xs text-gray-400 mt-2">Hãy chắc chắn:</p>
+                        <ul class="text-xs text-gray-400 mt-1 list-disc list-inside">
+                            <li>Backend API đang chạy trên ${API_URL}</li>
+                            <li>Có ít nhất 1 branch trong database với status='active'</li>
+                            <li>Endpoint /api/branches hoạt động</li>
+                        </ul>
+                        <button onclick="loadBranches()" class="mt-4 px-4 py-2 bg-primary text-black rounded-lg font-semibold">
+                            Thử lại
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function displayBranches(branches) {
+            const container = document.getElementById('branchList');
+            
+            if (branches.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <span class="material-symbols-outlined text-4xl mb-2">restaurant</span>
+                        <p>Chưa có chi nhánh nào</p>
+                        <p class="text-xs mt-2 text-gray-400">Thêm chi nhánh trong admin panel</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = branches.map(branch => `
+                <div onclick="viewBranch('${branch.branch_id}')" class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer hover:bg-white/10 transition-colors">
+                    <div class="flex items-start gap-3">
+                        <div class="size-12 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-primary">restaurant</span>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base mb-1">${branch.branch_name}</h3>
+                            <p class="text-xs text-gray-400 mb-2">${branch.address}, ${branch.province}</p>
+                            <div class="flex items-center gap-4 text-xs">
+                                <span class="flex items-center gap-1 text-primary">
+                                    <span class="material-symbols-outlined text-sm">schedule</span>
+                                    ${branch.opening_hours} - ${branch.closing_hours}
+                                </span>
+                                <span class="flex items-center gap-1 text-amber-500">
+                                    <span class="material-symbols-outlined text-sm">percent</span>
+                                    ${branch.cashback_percent}% cashback
+                                </span>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-gray-500">chevron_right</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewBranch(branchId) {
+            selectedBranch = allBranches.find(b => b.branch_id === branchId);
+            if (!selectedBranch) return;
+            
+            console.log('Selected branch:', selectedBranch);
+            
+            // Populate modal
+            document.getElementById('modalBranchName').textContent = selectedBranch.branch_name;
+            document.getElementById('modalAddress').textContent = `${selectedBranch.address}, ${selectedBranch.province}`;
+            document.getElementById('modalHours').textContent = `${selectedBranch.opening_hours} - ${selectedBranch.closing_hours}`;
+            document.getElementById('modalPhone').textContent = selectedBranch.phone;
+            document.getElementById('modalCashback').textContent = `${selectedBranch.cashback_percent}% hoàn tiền trên mọi đơn hàng`;
+            
+            // Show image if available
+            const imageContainer = document.getElementById('modalBranchImage');
+            if (selectedBranch.image) {
+                imageContainer.innerHTML = `<img src="${selectedBranch.image}" alt="${selectedBranch.branch_name}" class="w-full h-full object-cover">`;
+            } else {
+                imageContainer.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-blue-500/20">
+                        <span class="material-symbols-outlined text-6xl text-primary">restaurant</span>
+                    </div>
+                `;
+            }
+            
+            // Load menu for this branch
+            loadMenu(branchId);
+            
+            // Show modal
+            document.getElementById('branchModal').classList.remove('hidden');
+        }
+
+        async function loadMenu(branchId) {
+            try {
+                // Fetch menu items for this branch using guest endpoint
+                const response = await fetch(`${API_URL}/menu-items?branch_id=${branchId}`);
+                
+                if (!response.ok) {
+                    console.warn('Could not load menu items');
+                    document.getElementById('modalMenu').innerHTML = `
+                        <p class="text-xs text-gray-400">Chưa có thực đơn</p>
+                    `;
+                    return;
+                }
+                
+                const menuItems = await response.json();
+                console.log('Menu items:', menuItems);
+                
+                if (menuItems.length === 0) {
+                    document.getElementById('modalMenu').innerHTML = `
+                        <p class="text-xs text-gray-400">Chưa có món ăn nào</p>
+                    `;
+                    return;
+                }
+                
+                // Group by category
+                const categories = {};
+                menuItems.forEach(item => {
+                    const catName = item.category_name || 'Khác';
+                    if (!categories[catName]) {
+                        categories[catName] = [];
+                    }
+                    categories[catName].push(item);
+                });
+                
+                // Display menu
+                const menuHTML = Object.entries(categories).slice(0, 2).map(([category, items]) => `
+                    <div>
+                        <h5 class="font-bold text-sm text-primary mb-2">${category}</h5>
+                        <div class="space-y-2">
+                            ${items.slice(0, 3).map(item => `
+                                <div class="bg-white/5 border border-white/10 rounded-lg p-3">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="font-semibold text-sm">${item.item_name}</span>
+                                        <span class="text-primary font-bold text-sm">${item.price.toLocaleString('vi-VN')}đ</span>
+                                    </div>
+                                    ${item.description ? `<p class="text-xs text-gray-400">${item.description}</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('modalMenu').innerHTML = menuHTML;
+                
+            } catch (error) {
+                console.error('Error loading menu:', error);
+                document.getElementById('modalMenu').innerHTML = `
+                    <p class="text-xs text-gray-400">Không thể tải thực đơn</p>
+                `;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('branchModal').classList.add('hidden');
+            selectedBranch = null;
+        }
+
+        function openChat() {
+            if (!selectedBranch) return;
+            console.log('Opening chat for branch:', selectedBranch.branch_id);
+            window.location.href = `chat.html?branch_id=${selectedBranch.branch_id}`;
+        }
+
+        function openMaps() {
+            if (!selectedBranch || !selectedBranch.google_maps_link) return;
+            window.open(selectedBranch.google_maps_link, '_blank');
+        }
+    </script>
+</body>
+</html>

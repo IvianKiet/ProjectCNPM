@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý người dùng (Admin)</title>
+    <script src="/assets/Javascript/api-config.js"></script>
+    <script>
+      (function () {
+        const get_theme = localStorage.getItem("theme");  
+        if (get_theme == "dark") {
+            document.documentElement.classList.add("dark")
+        }
+      })()
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981",
+                        "primary-hover": "#059669",
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased min-h-screen transition-colors duration-200">
+
+<div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col hidden md:flex transition-colors duration-200">
+        <div class="p-6 flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
+            <span class="material-symbols-outlined text-primary text-3xl mr-2">admin_panel_settings</span>
+            <h1 class="text-xl font-bold tracking-tight">AdminPanel</h1>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1 px-3">
+                <li><a href="admin_dashboard.html" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
+                    <span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">dashboard</span>
+                    <span>Tổng quan</span>
+                </a></li>
+                <li><a href="manage_restaurant_system.html" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
+                    <span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">store</span>
+                    <span>Quản lý nhà hàng</span>
+                </a></li>
+                <li><a href="manage_revenue.html" class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group">
+                    <span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">payments</span>
+                    <span>Quản lý doanh thu</span>
+                </a></li>
+                <li><a href="manage_user.html" class="flex items-center px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors font-medium">
+                    <span class="material-symbols-outlined mr-3 text-primary">group</span>
+                    <span>Quản lý người dùng</span>
+                </a></li>
+            </ul>
+        </nav>
+        
+        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-3">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.awAiMS1BCAQ2xS2lcdXGlwHaHH?pid=Api&P=0&h=180" alt="Admin" class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-600">
+                <div>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">Admin User</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Quản trị hệ thống</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Header -->
+        <header class="h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-6 transition-colors duration-200 z-10">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Quản lý người dùng</h2>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="relative hidden sm:block">
+                    <div class="flex items-center bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+                        <span class="material-symbols-outlined text-gray-400 text-sm mr-2">search</span>
+                        <input type="text" placeholder="Tìm kiếm người dùng..." class="bg-transparent border-none p-0 text-sm focus:ring-0 w-48 text-gray-600 dark:text-gray-300" id="search-input">
+                    </div>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors">
+                    <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                    <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-100 dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto">
+                <!-- Page Header -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Danh sách người dùng</h1>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Xem và quản lý tất cả các tài khoản truy cập vào hệ thống.</p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Tổng người dùng</p>
+                                <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1" id="total-users">0</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-blue-600 dark:text-blue-400 text-2xl">group</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Đang hoạt động</p>
+                                <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1" id="active-users">0</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">check_circle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="mb-6 flex flex-wrap items-center gap-4">
+                    <div class="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-1.5 shadow-sm">
+                        <button onclick="filterByRole('all')" class="role-filter-btn px-4 py-1.5 text-sm font-medium rounded-md bg-primary text-white shadow-sm transition-all">Tất cả</button>
+                        <button onclick="filterByRole('customer')" class="role-filter-btn px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-all rounded-md">Khách hàng</button>
+                        <button onclick="filterByRole('owner')" class="role-filter-btn px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-all rounded-md">Chủ nhà hàng</button>
+                        <button onclick="filterByRole('staff')" class="role-filter-btn px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-all rounded-md">Nhân viên</button>
+                        <button onclick="filterByRole('chef')" class="role-filter-btn px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-all rounded-md">Đầu bếp</button>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tên người dùng</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Vai trò</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ngày tham gia</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Trạng thái</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <!-- Data will be loaded here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <span id="pagination-info" class="text-sm text-gray-500 dark:text-gray-400">Hiển thị 0-0 trong 0 người dùng</span>
+                        <div class="flex items-center gap-2">
+                            <button id="prev-btn" class="p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-white dark:hover:bg-gray-700 transition-colors disabled:opacity-50">
+                                <span class="material-symbols-outlined text-sm">chevron_left</span>
+                            </button>
+                            <div id="page-numbers" class="flex items-center gap-1"></div>
+                            <button id="next-btn" class="p-2 border border-gray-200 dark:border-gray-700 rounded hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ✅ Edit User Modal -->
+<div id="edit-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Chỉnh sửa thông tin người dùng</h3>
+            <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <form id="edit-form">
+            <input type="hidden" id="edit-user-id">
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tên người dùng</label>
+                    <input type="text" id="edit-user-name" required
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Vai trò</label>
+                    <select id="edit-user-role" required
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="customer">Khách hàng</option>
+                        <option value="owner">Chủ nhà hàng</option>
+                        <option value="staff">Nhân viên</option>
+                        <option value="chef">Đầu bếp</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 mt-6">
+                <button type="button" id="cancel-edit-btn"
+                        class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    Hủy
+                </button>
+                <button type="submit"
+                        class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors">
+                    Lưu thay đổi
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../../assets/Javascript/admin/display_user_admin.js"></script>
+<script src="../../assets/Javascript/owner/theme_mode.js"></script>
+</body>
+</html>

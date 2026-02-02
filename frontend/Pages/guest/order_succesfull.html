@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Trạng Thái Đơn Hàng & Xác Nhận</title>
+<script src="/assets/Javascript/api-config.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#39E079",
+                        "accent-coral": "#DB6F5A",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#122017",
+                        "surface-dark": "#242427",
+                        "success-green": "#22C55E"
+                    },
+                    fontFamily: {
+                        display: "Epilogue"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Epilogue', sans-serif;
+        }
+        .status-dot {
+            height: 0.75rem;
+            width: 0.75rem;
+            border-radius: 9999px;
+        }
+        .status-dot-active {
+            background-color: #39E079;
+            box-shadow: 0 0 10px rgba(23,130,130,0.5);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .status-dot-inactive {
+            background-color: rgb(203 213 225);
+        }
+        .dark .status-dot-inactive {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .progress-line {
+            height: 0.25rem;
+            flex: 1;
+            background-color: rgb(226 232 240);
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .progress-line {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .progress-line-fill {
+            position: absolute;
+            inset: 0;
+            background-color: #39E079;
+            width: 100%;
+        }
+    </style>
+    
+    
+    <script src="../../assets/Javascript/guest/order_successful_script.js"></script>
+</head>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<script src="../../assets/Javascript/guest/guest_utils.js"></script>
+<div class="layout-container flex flex-col min-h-screen">
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10">
+<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg">
+<svg class="size-6 text-white" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<div>
+<h1 class="font-bold text-lg tracking-tight">Scan&Order</h1>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="h-10 px-6 flex items-center bg-primary/10 border border-primary/20 rounded-full text-primary font-bold text-sm tracking-wide uppercase" id="header-table-number">
+                        Loading...
+                    </div>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-4xl mx-auto w-full px-6 py-12 flex flex-col items-center">
+<div class="text-center mb-12">
+<div class="inline-flex items-center justify-center size-24 bg-success-green/10 text-success-green rounded-full mb-6">
+<span class="material-symbols-outlined text-6xl">check_circle</span>
+</div>
+<h2 class="text-4xl font-black tracking-tight mb-3">Đặt món thành công!</h2>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Cảm ơn bạn, đơn hàng đã được gửi đến nhà bếp.</p>
+</div>
+<div class="w-full bg-white dark:bg-surface-dark rounded-3xl border border-slate-200 dark:border-white/5 shadow-2xl overflow-hidden mb-10">
+<div class="p-8 border-b border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02]">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">restaurant</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Trạng thái hiện tại</p>
+<h3 class="text-2xl font-black text-primary">Đã nhận đơn</h3>
+</div>
+</div>
+<div class="flex flex-col md:items-end">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Thời gian chờ dự kiến</p>
+<div class="flex items-center gap-2 text-2xl font-black">
+<span class="material-symbols-outlined text-accent-coral">schedule</span>
+                                15 - 20 phút
+                            </div>
+</div>
+</div>
+</div>
+<div class="px-8 py-10">
+<div class="relative flex items-center justify-between">
+<div class="z-10 flex flex-col items-center gap-3">
+<div class="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xs font-bold">check</span>
+</div>
+<span class="text-sm font-bold">Đã nhận đơn</span>
+</div>
+<div class="progress-line"></div>
+<div class="z-10 flex flex-col items-center gap-3">
+<div class="h-6 w-6 rounded-full bg-slate-200 dark:bg-white/10"></div>
+<span class="text-sm font-medium text-slate-400">Đang chế biến</span>
+</div>
+<div class="progress-line"></div>
+<div class="z-10 flex flex-col items-center gap-3">
+<div class="h-6 w-6 rounded-full bg-slate-200 dark:bg-white/10"></div>
+<span class="text-sm font-medium text-slate-400">Đang phục vụ</span>
+</div>
+<div class="progress-line"></div>
+<div class="z-10 flex flex-col items-center gap-3">
+<div class="h-6 w-6 rounded-full bg-slate-200 dark:bg-white/10"></div>
+<span class="text-sm font-medium text-slate-400">Hoàn tất</span>
+</div>
+</div>
+</div>
+<div class="px-8 pb-8 grid grid-cols-1 md:grid-cols-2 gap-9">
+<div class="p-4 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Mã đơn hàng</p>
+<p class="font-bold text-lg">Loading...</p>
+</div>
+<div class="p-4 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Bàn số</p>
+<p class="font-bold text-lg">Loading...</p>
+</div>
+</div>
+<div class="w-full flex flex-col md:flex-row gap-4 items-center justify-center">
+<button onclick="window.GuestUtils.navigateTo('menu.html')" class="w-full md:w-auto px-10 py-4 rounded-xl border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-3 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">add_circle</span>
+                    Tiếp tục gọi thêm món
+                </button>
+<button onclick="window.GuestUtils.navigateTo('payment_invoice.html')" class="w-full md:w-auto px-10 py-4 rounded-xl bg-slate-200 dark:bg-white/10 font-bold hover:bg-slate-300 dark:hover:bg-white/20 transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">receipt_long</span>
+                    Thanh toán hóa đơn
+                </button>
+</div>
+</div>
+</main>
+<footer class="mt-auto py-8 border-t border-slate-200 dark:border-white/5">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-400">© 2024 Scan&Order. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Thực Đơn - Gourmet Restaurant</title>
+    <script src="/assets/Javascript/api-config.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class", 
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#39E079", 
+                        accent: "#DB6F5A", 
+                        "background-light": "#f6f8f7", 
+                        "background-dark": "#122017", 
+                        "card-dark": "#1d1d21"
+                    }, 
+                    fontFamily: {
+                        display: "Epilogue"
+                    }, 
+                    borderRadius: {
+                        DEFAULT: "0.5rem", 
+                        lg: "1rem", 
+                        xl: "1.5rem", 
+                        full: "9999px"
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Epilogue', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2a3737;
+            border-radius: 10px;
+        }
+        .glass-effect {
+            background: rgba(29, 29, 33, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        
+        /* Mobile menu toggle */
+        #mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Category filter animations */
+        .category-btn {
+            transition: all 0.2s ease;
+        }
+        .category-btn.active {
+            background-color: #39E079;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white transition-colors duration-300">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Desktop Sidebar Navigation (hidden on mobile) -->
+        <aside class="hidden lg:flex w-72 flex-shrink-0 border-r border-slate-200 dark:border-white/10 flex-col bg-white dark:bg-card-dark transition-all">
+            <div class="p-8 flex flex-col h-full">
+                <div class="mb-10">
+                    <div class="flex items-center gap-3 text-primary mb-2">
+                        <span class="material-symbols-outlined text-4xl font-bold">restaurant_menu</span>
+                        <h1 class="text-xl font-black tracking-tighter uppercase italic">Gourmet</h1>
+                    </div>
+                    <div class="px-3 py-1 bg-primary/10 rounded-lg inline-block">
+                        <p id="table-info-desktop" class="text-primary text-xs font-bold tracking-widest uppercase leading-none">Bàn</p>
+                    </div>
+                </div>
+                
+                <!-- Category Navigation -->
+                <nav id="category-nav-desktop" class="flex-1 space-y-2">
+                    <!-- Categories will be dynamically inserted here -->
+                </nav>
+          
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Menu (slide-in from left) -->
+        <div id="mobile-menu" class="lg:hidden fixed inset-y-0 left-0 w-72 bg-white dark:bg-card-dark z-50 shadow-2xl">
+            <div class="p-6 flex flex-col h-full">
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center gap-3 text-primary">
+                        <span class="material-symbols-outlined text-3xl font-bold">restaurant_menu</span>
+                        <h1 class="text-lg font-black tracking-tighter uppercase italic">Gourmet</h1>
+                    </div>
+                    <button id="close-menu" class="p-2 hover:bg-slate-100 dark:hover:bg-white/5 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined text-slate-500 dark:text-slate-400">close</span>
+                    </button>
+                </div>
+                
+                <div class="px-3 py-2 bg-primary/10 rounded-lg inline-block mb-6">
+                    <p id="table-info-mobile" class="text-primary text-xs font-bold tracking-widest uppercase leading-none"></p>
+                </div>
+                
+                <!-- Category Navigation Mobile -->
+                <nav id="category-nav-mobile" class="flex-1 space-y-2">
+                    <!-- Categories will be dynamically inserted here -->
+                </nav>
+                
+                <div class="mt-auto pt-6 border-t border-slate-200 dark:border-white/10">
+                    <button class="w-full flex items-center justify-center gap-3 py-4 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl font-bold transition-all text-sm">
+                        <span class="material-symbols-outlined">notifications_active</span>
+                        Gọi nhân viên
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overlay for mobile menu -->
+        <div id="menu-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-hidden relative">
+            <!-- Top Navigation Bar -->
+            <header class="h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md z-10">
+                <!-- Mobile hamburger menu -->
+                <button id="open-menu" class="lg:hidden p-2 hover:bg-slate-100 dark:hover:bg-white/5 rounded-xl transition-colors">
+                    <span class="material-symbols-outlined text-slate-500 dark:text-slate-400">menu</span>
+                </button>
+
+                <!-- Desktop Search Bar -->
+                <div class="hidden lg:flex flex-1 max-w-md relative group">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+                    <input 
+                        id="search-input"
+                        class="w-full pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary rounded-xl text-sm placeholder:text-slate-400" 
+                        placeholder="Tìm món ăn..." 
+                        type="text"/>
+                </div>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-3 lg:gap-4">
+                    <!-- Desktop View Cart Button -->
+                    <a href="detail_cart.html" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined text-slate-500 dark:text-slate-400">shopping_bag</span>
+                        <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Xem giỏ hàng</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Mobile Search Bar (below header) -->
+            <div class="lg:hidden px-4 py-3 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-white/10">
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors text-xl">search</span>
+                    <input 
+                        id="search-input-mobile"
+                        class="w-full pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-white/5 border-none focus:ring-2 focus:ring-primary rounded-xl text-sm placeholder:text-slate-400" 
+                        placeholder="Tìm món ăn..." 
+                        type="text"/>
+                </div>
+            </div>
+
+            <!-- Menu Content -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar p-4 lg:p-8 pb-24 lg:pb-8">
+                <!-- Page Heading & Filters -->
+                <div class="flex flex-col gap-4 lg:gap-6 mb-6 lg:mb-10">
+                    <div class="max-w-2xl">
+                        <h2 id="category-title" class="text-2xl md:text-4xl lg:text-5xl font-black tracking-tight mb-1 lg:mb-2">Thực Đơn</h2>
+                        <p id="category-description" class="text-slate-500 dark:text-slate-400 text-sm lg:text-lg">Khám phá tinh hoa ẩm thực được chế tác bởi những đầu bếp 5 sao tài hoa.</p>
+                    </div>
+
+                    <!-- Category Filter Chips (Mobile/Tablet) -->
+                    <div class="lg:hidden overflow-x-auto">
+                        <div id="category-chips" class="flex gap-2 pb-2">
+                            <!-- Category chips will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid of Food Items -->
+                <div id="dishes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-8">
+                    <!-- Danh sách món ăn sẽ được render ở đây bởi JavaScript -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200 dark:border-white/10 pt-6">
+                    <p id="pagination-info" class="text-sm text-slate-500 dark:text-slate-400">
+                        Đang tải...
+                    </p>
+                    <div class="flex items-center gap-2">
+                        <button 
+                            id="prev-btn"
+                            class="px-4 py-2 bg-white dark:bg-card-dark border border-slate-200 dark:border-white/10 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium">
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">chevron_left</span>
+                                <span>Trước</span>
+                            </span>
+                        </button>
+                        
+                        <div id="page-numbers" class="flex items-center gap-1 px-2">
+                            <!-- Page numbers sẽ được render ở đây -->
+                        </div>
+                        
+                        <button 
+                            id="next-btn"
+                            class="px-4 py-2 bg-white dark:bg-card-dark border border-slate-200 dark:border-white/10 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium">
+                            <span class="flex items-center gap-1">
+                                <span>Sau</span>
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Floating Cart Bottom Bar (Mobile only) -->
+            <div class="lg:hidden fixed bottom-4 left-4 right-4 z-50">
+                <a href="detail_cart.html" class="cart-button w-full flex items-center justify-between px-6 py-4 bg-accent text-white rounded-2xl shadow-2xl shadow-accent/40 transform active:scale-95 transition-all">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <span class="material-symbols-outlined text-2xl">shopping_bag</span>
+                            <span class="cart-quantity absolute -top-1 -right-1 w-5 h-5 bg-white text-accent text-[10px] font-black rounded-full flex items-center justify-center">0</span>
+                        </div>
+                        <div class="text-left leading-tight">
+                            <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Xem đơn hàng</p>
+                            <p class="cart-price text-lg font-black">0đ</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-2xl">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Desktop Floating Cart (original position) -->
+            <div class="hidden lg:block fixed bottom-8 right-8 z-50" style="bottom: 160px;">
+                <a href="detail_cart.html" class="cart-button flex items-center gap-4 px-8 py-4 bg-accent text-white rounded-2xl shadow-2xl shadow-accent/40 transform hover:scale-105 transition-all">
+                    <div class="relative">
+                        <span class="material-symbols-outlined text-3xl">shopping_bag</span>
+                        <span class="cart-quantity absolute -top-1 -right-1 w-5 h-5 bg-white text-accent text-[10px] font-black rounded-full flex items-center justify-center">0</span>
+                    </div>
+                    <div class="text-left leading-tight">
+                        <p class="text-[10px] font-black uppercase tracking-widest opacity-80">Xem đơn hàng</p>
+                        <p class="cart-price text-lg font-black">0đ</p>
+                    </div>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Include consolidated scripts -->
+    <script src="../../assets/Javascript/guest/guest_utils.js"></script>
+    <script src="../../assets/Javascript/guest/cart.js"></script>
+    <script src="../../assets/Javascript/guest/menu.js"></script>
+</body>
+</html>

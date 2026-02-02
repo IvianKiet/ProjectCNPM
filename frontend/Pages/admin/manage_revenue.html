@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý doanh thu - Admin Panel</title>
+    <script src="/assets/Javascript/api-config.js"></script>
+
+        <script>
+
+      (function () 
+    {
+        const get_theme = localStorage.getItem("theme");  
+        if ( get_theme == "dark")
+    {
+        document.documentElement.classList.add("dark")
+    }
+    })()
+
+
+
+</script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981",
+                        "primary-hover": "#059669",
+                        "background-light": "#f3f4f6",
+                        "background-dark": "#111827",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1f2937",
+                        "text-light": "#1f2937",
+                        "text-dark": "#f9fafb",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#374151",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased min-h-screen transition-colors duration-200">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col hidden md:flex transition-colors duration-200">
+            <div class="p-6 flex items-center justify-center border-b border-border-light dark:border-border-dark">
+                <span class="material-symbols-outlined text-primary text-3xl mr-2">admin_panel_settings</span>
+                <h1 class="text-xl font-bold tracking-tight">AdminPanel</h1>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1 px-3">
+                    <li>
+                        <a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="admin_dashboard.html">
+                            <span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">dashboard</span>
+                            <span>Tổng quan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="manage_restaurant_system.html">
+                            <span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">store</span>
+                            <span>Quản lý nhà hàng</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors font-medium" href="manage_revenue.html">
+                            <span class="material-symbols-outlined mr-3 text-primary">payments</span>
+                            <span>Quản lý doanh thu</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="manage_user.html">
+                            <span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">group</span>
+                            <span>Quản lý người dùng</span>
+                        </a>
+                    </li>
+       
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-border-light dark:border-border-dark">
+                <div class="flex items-center gap-3">
+                    <img alt="Admin User Avatar" class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-600 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0-EqRcE9Rz11EI3eBoddM4J4NMj_vgxNTA8N5jcCdQps_fdubwetWY7NXLW9nBtTLsseT1Tm0M4RrClDoHqRrS5LO8MF26M8_8CgMEXWaXrNwjpz1vr8O0X1v26jiwzhc5bF2leluH9CdfUSHugE66JdK527lIXgZyt-B70LlVBlucNPujFopXk90aUMKkZQjHCobWAsAEh-2O_HjHltx8FXYwAGo_XO_Ad71VlkJfIvuqpzLQyqGB75_OxBhoerHdyCqZpG-J5c"/>
+                    <div>
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">Admin User</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Quản trị hệ thống</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+            <!-- Header -->
+            <header class="h-16 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-6 transition-colors duration-200 z-10">
+                <div class="flex items-center gap-4">
+                    <button class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Quản lý doanh thu</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative hidden sm:block">
+               
+                    </div>
+                    <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors" id="theme-toggle">
+                        <span class="material-symbols-outlined dark:hidden">dark_mode</span>
+                        <span class="material-symbols-outlined hidden dark:block">light_mode</span>
+                    </button>
+             
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-background-light dark:bg-background-dark">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Page Title -->
+                    <div class="mb-8">
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Báo cáo doanh thu</h1>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Theo dõi và phân tích doanh thu từ các nhà hàng trong hệ thống.</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Số lượng nhà hàng</span>
+                                <span class="p-2 bg-primary/10 rounded-lg text-primary">
+                                    <span class="material-symbols-outlined text-xl">store</span>
+                                </span>
+                            </div>
+                            <h3 id="total-restaurants" class="text-2xl font-bold text-gray-900 dark:text-white">-</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                Nhà hàng trong hệ thống
+                            </p>
+                        </div>
+                        
+                        <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Tổng số đơn hàng</span>
+                                <span class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600">
+                                    <span class="material-symbols-outlined text-xl">receipt_long</span>
+                                </span>
+                            </div>
+                            <h3 id="total-orders" class="text-2xl font-bold text-gray-900 dark:text-white">-</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                Đơn hàng đã xử lý
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Table -->
+                    <div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-border-light dark:border-border-dark">
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">Chi tiết doanh thu theo nhà hàng</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-50 dark:bg-gray-800/50 border-b border-border-light dark:border-border-dark">
+                                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nhà hàng</th>
+                                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Số đơn</th>
+                                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Doanh thu</th>
+                                        <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="revenue-tbody" class="divide-y divide-border-light dark:divide-border-dark">
+                                    <!-- Data will be rendered here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-border-light dark:border-border-dark flex items-center justify-between">
+                            <span id="pagination-info" class="text-sm text-gray-500 dark:text-gray-400">Hiển thị 1-5 trong 128 nhà hàng</span>
+                            <div class="flex items-center gap-2">
+                                <button id="prev-btn" class="p-2 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-gray-700 transition-colors disabled:opacity-50">
+                                    <span class="material-symbols-outlined text-sm">chevron_left</span>
+                                </button>
+                                <div id="page-numbers" class="flex items-center gap-2">
+                                    <!-- Page numbers here -->
+                                </div>
+                                <button id="next-btn" class="p-2 border border-border-light dark:border-border-dark rounded hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script src="../../assets/Javascript/admin/display_revenue_admin.js"></script>
+<script src="../../assets/Javascript/owner/theme_mode.js"></script> 
+</body>
+</html>
