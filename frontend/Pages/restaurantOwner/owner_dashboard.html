@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<script>
+  (function () {
+    const theme = localStorage.getItem("theme");
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  })();
+</script>
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tổng quan doanh thu</title>
+<script src="../../assets/Javascript/config.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#10b981", // Emerald green for a fresh restaurant vibe
+                        "primary-hover": "#059669",
+                        "background-light": "#f3f4f6",
+                        "background-dark": "#111827",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1f2937",
+                        "text-light": "#1f2937",
+                        "text-dark": "#f9fafb",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#374151",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark antialiased min-h-screen transition-colors duration-200">
+<div class="flex h-screen overflow-hidden">
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-col hidden md:flex transition-colors duration-200">
+<div class="p-6 flex items-center justify-center border-b border-border-light dark:border-border-dark">
+<span class="material-symbols-outlined text-primary text-3xl mr-2">restaurant_menu</span>
+<h1 class="text-xl font-bold tracking-tight">Scan&Order</h1>
+</div>
+<nav class="flex-1 overflow-y-auto py-4">
+<ul class="space-y-1 px-3">
+<li>
+<a class="flex items-center px-4 py-3 bg-primary/10 text-primary rounded-lg transition-colors font-medium" href="#">
+<span class="material-symbols-outlined mr-3 text-primary">dashboard</span>
+<span>Tổng quan</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="manage_restaurant.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">store</span>
+<span>Nhà hàng</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="manage_table.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">table_restaurant</span>
+<span>Quản lý bàn ăn</span>
+</a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="menu_restaurant.html">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">menu_book</span>
+<span>Thực đơn</span>
+</a>
+</li>
+<li>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined mr-3 text-gray-400 group-hover:text-primary transition-colors">settings</span>
+<span>Cài đặt</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<img alt="User Avatar" class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-600" src='https://e7.pngegg.com/pngimages/705/224/png-clipart-user-computer-icons-avatar-miscellaneous-heroes.png'>
+<div>
+<p class="text-sm font-medium">Nguyễn Văn A</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">Chủ nhà hàng</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+<header class="h-16 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex items-center justify-between px-6 transition-colors duration-200 z-10">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-lg font-semibold text-gray-800 dark:text-white">Tổng quan hệ thống</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+</div>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors" id="theme-toggle">
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block">light_mode</span>
+</button>
+<button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 md:p-8 bg-background-light dark:bg-background-dark">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+<div>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Doanh thu nhà hàng</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Theo dõi hiệu suất kinh doanh của tất cả chi nhánh trong hệ thống.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-800 border border-border-light dark:border-border-dark rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+<span class="material-symbols-outlined text-sm mr-2">download</span>
+                                Xuất báo cáo
+                            </button>
+<button class="flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg shadow-sm text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-sm mr-2">refresh</span>
+                                Cập nhật dữ liệu
+                            </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col justify-between h-full">
+<div class="flex items-center justify-between mb-4">
+<span class="text-sm font-medium text-gray-500 dark:text-gray-400">Doanh thu hôm nay</span>
+<span class="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-xl">payments</span>
+</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">--</h3>
+<p class="text-sm text-green-600 dark:text-green-400 flex items-center mt-1">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                                    --
+                                </p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col justify-between h-full">
+<div class="flex items-center justify-between mb-4">
+<span class="text-sm font-medium text-gray-500 dark:text-gray-400">Đơn hàng mới</span>
+<span class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-xl">receipt_long</span>
+</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">--</h3>
+<p class="text-sm text-green-600 dark:text-green-400 flex items-center mt-1">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                                    --
+                                </p>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col justify-between h-full">
+<div class="flex items-center justify-between mb-4">
+<span class="text-sm font-medium text-gray-500 dark:text-gray-400">Doanh thu tháng này</span>
+<span class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-xl">calendar_month</span>
+</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">--</h3>
+<p class="text-sm text-red-500 dark:text-red-400 flex items-center mt-1">
+<span class="material-symbols-outlined text-sm mr-1">trending_down</span>
+                                    --
+                                </p>
+</div>
+</div>
+</div>
+
+<script src="../../assets/Javascript/owner/theme_mode.js"></script>
+</body></html>

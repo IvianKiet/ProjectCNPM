@@ -1,0 +1,27 @@
+# Create this file: backend/Dockerfile.ai
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    default-libmysqlclient-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy only AI files
+COPY ai_chatbot_improved.py .
+COPY database.py .
+COPY models.py .
+
+# Expose port
+EXPOSE 8001
+
+# Run AI chatbot
+CMD ["python", "ai_chatbot_improved.py"]

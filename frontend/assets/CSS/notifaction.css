@@ -1,0 +1,125 @@
+/* Nền tối phía sau */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Khi hiện modal */
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Khi ẩn modal */
+.modal.hide {
+  animation: fadeOut 0.4s ease forwards;
+}
+
+/* Hộp thông báo chính */
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transform: scale(0.8);
+  opacity: 0;
+  animation: zoomIn 0.4s ease forwards;
+}
+
+/* Khi ẩn hộp */
+.modal.hide .modal-content {
+  animation: zoomOut 0.4s ease forwards;
+}
+
+/* Icon tích xanh */
+.icon-success {
+  width: 80px;
+  height: 80px;
+  border: 4px solid #e8f5e9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.icon-success svg {
+  fill: #4caf50;
+  width: 50px;
+  height: 50px;
+}
+
+.modal h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.modal p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* Nút OK */
+.btn-ok {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-ok:hover {
+  background-color: #2563eb;
+}
+
+/* Hiệu ứng nền mờ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Hiệu ứng zoom + fade cho hộp */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
